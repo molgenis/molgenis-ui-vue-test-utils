@@ -48,7 +48,7 @@ import { expect } from 'chai'
  * @param options an options object containing parameters that can be used in testing this action
  * @param options.payload the payload included in the action dispatch
  * @param options.state the state used in this specific action
- * @oaram options.expectedMutations an array of objects describing the mutations that are expected to be committed by this action
+ * @param options.expectedMutations an array of objects describing the mutations that are expected to be committed by this action
  * @param options.expectedActions an array of objects describing the actions that are expected to be dispatched by this action
  *
  * @param done used to call done() which closes the Promise from calling an asynchronous api
