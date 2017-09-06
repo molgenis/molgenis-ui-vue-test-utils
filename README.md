@@ -91,10 +91,10 @@ The options object that can be supplied to the _testAction_ function can contain
 
 | Parameter | Description | Default value |
 |-----------|-------------|---------------|
-| payload | a JS object or string or number to pass to the action being tested |
-| state | the state used by the action being tested |
-| expectedMutations | an array of _object{type:..., payload:...}_ describing all the mutations that are committed by the action being tested |
-| expectedActions | an array of _object{type:..., payload:...}_ describing all the actions that are dispatched by the action being tested |
+| payload | a JS object or string or number to pass to the action being tested | null |
+| state | the state used by the action being tested | {} |
+| expectedMutations | an array of _object{type:..., payload:...}_ describing all the mutations that are committed by the action being tested | [] |
+| expectedActions | an array of _object{type:..., payload:...}_ describing all the actions that are dispatched by the action being tested | [] |
 
 Contributing
 ------------
