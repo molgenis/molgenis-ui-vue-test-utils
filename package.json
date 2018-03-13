@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-vue-test-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Test utilities for Vue and Vuex code",
   "main": "dist/molgenis-vue-test-utils.es.js",
   "scripts": {
