@@ -95,6 +95,7 @@ The options object that can be supplied to the _testAction_ function can contain
 | state | the state used by the action being tested | {} |
 | expectedMutations | an array of _object{type:..., payload:...}_ describing all the mutations that are committed by the action being tested | [] |
 | expectedActions | an array of _object{type:..., payload:...}_ describing all the actions that are dispatched by the action being tested | [] |
+| getters | an object containing getter functions as keys, and their expected return value as value. Use this to mock getters in your actions | {}
 
 Contributing
 ------------
