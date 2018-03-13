@@ -23,7 +23,10 @@ describe('Testing utilities', () => {
         ],
         expectedActions: [
           {type: TEST_DISPATCH, payload: 'test'}
-        ]
+        ],
+        getters: {
+          testValue: 'testGetter'
+        }
       }
 
       utils.testAction(action, options, done)
@@ -35,13 +38,15 @@ describe('Testing utilities', () => {
       const TEST_COMMIT_3 = '__TEST_COMMIT_3__'
       const TEST_COMMIT_4 = '__TEST_COMMIT_4__'
       const TEST_COMMIT_5 = '__TEST_COMMIT_5__'
+      const TEST_COMMIT_6 = '__TEST_COMMIT_6__'
 
-      const action = ({commit, dispatch, state}, payload) => {
+      const action = ({commit, dispatch, getters, state}, payload) => {
         commit(TEST_COMMIT_1, null)
         commit(TEST_COMMIT_2, state.id)
         commit(TEST_COMMIT_3, state.name)
         commit(TEST_COMMIT_4, state.label)
         commit(TEST_COMMIT_5, payload)
+        commit(TEST_COMMIT_6, getters.testValue)
       }
 
       const options = {
@@ -56,7 +61,8 @@ describe('Testing utilities', () => {
           {type: TEST_COMMIT_2, payload: 'id'},
           {type: TEST_COMMIT_3, payload: 'name'},
           {type: TEST_COMMIT_4, payload: 'label'},
-          {type: TEST_COMMIT_5, payload: 'test'}
+          {type: TEST_COMMIT_5, payload: 'test'},
+          {type: TEST_COMMIT_6, payload: 'testGetter'}
         ]
       }
 

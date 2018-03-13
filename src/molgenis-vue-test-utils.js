@@ -50,6 +50,7 @@ import { expect } from 'chai'
  * @param options.state the state used in this specific action
  * @param options.expectedMutations an array of objects describing the mutations that are expected to be committed by this action
  * @param options.expectedActions an array of objects describing the actions that are expected to be dispatched by this action
+ * @param options.getters an object of possible mocks for getter calls
  *
  * @param done used to call done() which closes the Promise from calling an asynchronous api
  */
@@ -58,6 +59,7 @@ const testAction = (action, options, done) => {
   const state = options.state ? options.state : {}
   const expectedMutations = options.expectedMutations ? options.expectedMutations : []
   const expectedActions = options.expectedActions ? options.expectedActions : []
+  const getters = options.getters ? options.getters : {}
 
   let mutationCount = 0
   let actionCount = 0
@@ -98,7 +100,7 @@ const testAction = (action, options, done) => {
     }
   }
 
-  action({commit, dispatch, state}, payload)
+  action({commit, dispatch, getters, state}, payload)
 
   if (expectedMutations.length === 0 && expectedActions.length === 0) {
     expect(mutationCount).to.equal(0)
