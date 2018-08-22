@@ -1,12 +1,79 @@
 import { expect } from 'chai'
-import utils from '../src/molgenis-vue-test-utils'
+import utils from '../../../src/molgenis-vue-test-utils'
+import sinon from 'sinon'
 
 describe('Testing utilities', () => {
-  describe('## testAction ##', () => {
-    it('should test an action with a commit and a dispatch using both state and payload', done => {
-      const TEST_COMMIT = '__TEST_COMMIT__'
-      const TEST_DISPATCH = '__TEST_DISPATCH__'
 
+  describe('## testAction ##', () => {
+    const TEST_COMMIT = '__TEST_COMMIT__'
+    const TEST_DISPATCH = '__TEST_DISPATCH__'
+
+    it('should call done without argument if nothing happens and nothing is expected', () => {
+      const action = () => {}
+      const options = {}
+      const done = sinon.fake()
+      utils.testAction(action, options, done)
+      expect(done.calledOnce).to.eq(true)
+      expect(done.firstCall.args).to.deep.eq([])
+    })
+
+    it('should not call done if some expected mutations were not committed', () => {
+      const action = ({commit}) => {
+        commit(TEST_COMMIT, '1')
+      }
+      const options = { expectedMutations: [
+        {type: TEST_COMMIT, payload: '1'},
+        {type: TEST_COMMIT, payload: '2'}]
+      }
+
+      const done = sinon.fake()
+      utils.testAction(action, options, done)
+
+      expect(done.called).to.eq(false)
+    })
+
+    it('should call done with an error if mutation with unexpected payload is committed', () => {
+      const action = ({commit}) => {
+        commit(TEST_COMMIT, '2')
+      }
+      const options = { expectedMutations: [
+          {type: TEST_COMMIT, payload: '1'}]
+      }
+
+      const done = sinon.fake()
+      utils.testAction(action, options, done)
+
+      expect(done.called).to.eq(true)
+      expect(done.firstCall.args[0].message).to.eq('expected \'1\' to deeply equal \'2\'')
+    })
+
+    it('should call done with an error if unexpected mutation is committed', () => {
+      const action = ({commit}) => {
+        commit(TEST_COMMIT, '2')
+      }
+      const options = {}
+
+      const done = sinon.fake()
+      utils.testAction(action, options, done)
+
+      expect(done.called).to.eq(true)
+      expect(done.firstCall.args[0].message).to.eq('Cannot read property \'type\' of undefined')
+    })
+
+    it('should call done with an error if unexpected action is dispatched', () => {
+      const action = ({dispatch}) => {
+        dispatch(TEST_DISPATCH, '2')
+      }
+      const options = {}
+
+      const done = sinon.fake()
+      utils.testAction(action, options, done)
+
+      expect(done.called).to.eq(true)
+      expect(done.firstCall.args[0].message).to.eq('Cannot read property \'type\' of undefined')
+    })
+
+    it('should test an action with a commit and a dispatch using both state and payload', done => {
       const action = ({commit, dispatch, state}, payload) => {
         commit(TEST_COMMIT, state.id)
         dispatch(TEST_DISPATCH, payload)
