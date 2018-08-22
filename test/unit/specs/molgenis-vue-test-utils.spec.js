@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import utils from '../src/molgenis-vue-test-utils'
+import utils from '../../../src/molgenis-vue-test-utils'
 
 describe('Testing utilities', () => {
   describe('## testAction ##', () => {

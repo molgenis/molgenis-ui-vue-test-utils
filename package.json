@@ -3,15 +3,18 @@
   "version": "1.1.0",
   "description": "Test utilities for Vue and Vuex code",
   "main": "dist/molgenis-vue-test-utils.es.js",
+  "module": "dist/molgenis-vue-test-utils.es.js",
   "scripts": {
-    "lint": "eslint src test tools",
-    "test": "mocha --compilers js:babel-register",
+    "lint": "standard",
+    "unit": "babel-node ./node_modules/istanbul/lib/cli.js cover --dir test/unit/coverage ./node_modules/mocha/bin/_mocha test/unit/specs/**/*.js",
     "debug": "mocha --compilers js:babel-register --debug-brk",
-    "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
-    "test:cover": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "build": "node build/build",
-    "prepublish": "yarn run build"
+    "unit:watch": "mocha --compilers js:babel-register --reporter min --watch",
+    "build": "standard; rollup -c",
+    "preversion": "yarn install; yarn unit; yarn build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.org"
   },
   "repository": "git@github.com:molgenis/molgenis-vue-test-utils.git",
   "keywords": [
@@ -23,36 +26,34 @@
   ],
   "author": "MOLGENIS Team, System Genetics, UMCG, Netherlands",
   "license": "LGPL-3.0",
-  "dependencies": {
-    "babel-runtime": "^6.11.6"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-core": "^6.17.0",
-    "babel-eslint": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
     "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-latest": "^6.16.0",
-    "babel-preset-stage-2": "^6.16.0",
-    "babel-register": "^6.16.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "babel-runtime": "^6.26.0",
     "chai": "^4.0.0-canary.1",
-    "coveralls": "^2.11.14",
-    "del": "^2.2.2",
-    "eslint": "^3.8.0",
-    "eslint-config-airbnb-base": "^10.0.1",
-    "eslint-plugin-import": "^2.2.0",
-    "istanbul": "^1.1.0-alpha.1",
+    "istanbul": "1.1.0-alpha.1",
     "mocha": "^3.1.2",
-    "rollup": "^0.36.3",
+    "rollup": "^0.64.1",
     "rollup-plugin-babel": "^2.6.1",
-    "sinon": "^2.0.0-pre.3"
+    "rollup-plugin-commonjs": "^9.1.5",
+    "rollup-plugin-istanbul": "^2.0.1",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "standard": "^11.0.1"
   },
   "babel": {
     "presets": [
-      "latest",
-      "stage-2"
+      "env"
     ],
     "plugins": [
       "transform-runtime"
     ]
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
