@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import utils from '../src/molgenis-vue-test-utils'
+import utils from '../../../src/molgenis-vue-test-utils'
 
 describe('Testing utilities', () => {
   describe('## testAction ##', () => {
@@ -63,7 +63,10 @@ describe('Testing utilities', () => {
           {type: TEST_COMMIT_4, payload: 'label'},
           {type: TEST_COMMIT_5, payload: 'test'},
           {type: TEST_COMMIT_6, payload: 'testGetter'}
-        ]
+        ],
+        getters: {
+          testValue: 'testGetter'
+        }
       }
 
       utils.testAction(action, options, done)
@@ -97,6 +100,37 @@ describe('Testing utilities', () => {
           {type: TEST_DISPATCH_3, payload: 'name'},
           {type: TEST_DISPATCH_4, payload: 'label'},
           {type: TEST_DISPATCH_5, payload: 'test'}
+        ]
+      }
+
+      utils.testAction(action, options, done)
+    })
+
+    it('should check undefined payloads as well', done => {
+      const TEST_DISPATCH = '__TEST_DISPATCH__'
+      const TEST_COMMIT = '__TEST_COMMIT__'
+
+      const action = ({commit, dispatch}) => {
+        dispatch(TEST_DISPATCH, undefined)
+        dispatch(TEST_DISPATCH, 'x')
+        commit(TEST_COMMIT, undefined)
+        commit(TEST_COMMIT, 'x')
+      }
+
+      const options = {
+        payload: 'test',
+        state: {
+          id: 'id',
+          name: 'name',
+          label: 'label'
+        },
+        expectedActions: [
+          {type: TEST_DISPATCH},
+          {type: TEST_DISPATCH, payload: 'x'},
+        ],
+        expectedMutations: [
+          {type: TEST_COMMIT},
+          {type: TEST_COMMIT, payload: 'x'}
         ]
       }
 
