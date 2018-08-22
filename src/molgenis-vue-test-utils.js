@@ -69,9 +69,7 @@ const testAction = (action, options, done) => {
 
     try {
       expect(mutation.type).to.equal(type)
-      if (payload) {
-        expect(mutation.payload).to.deep.equal(payload)
-      }
+      expect(mutation.payload).to.deep.equal(payload)
 
       mutationCount++
       if (mutationCount >= expectedMutations.length && actionCount >= expectedActions.length) {
@@ -87,9 +85,7 @@ const testAction = (action, options, done) => {
 
     try {
       expect(action.type).to.equal(type)
-      if (payload) {
-        expect(action.payload).to.deep.equal(payload)
-      }
+      expect(action.payload).to.deep.equal(payload)
 
       actionCount++
       if (actionCount >= expectedActions.length && mutationCount >= expectedMutations.length) {
