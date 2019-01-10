@@ -31,6 +31,22 @@ describe('Testing utilities', () => {
 
       utils.testAction(action, options, done)
     })
+    it('should test an action with a commit using rootState', done => {
+      const TEST_COMMIT = '__TEST_COMMIT__'
+      const action = ({commit, rootState}) => {
+        commit(TEST_COMMIT, rootState.id)
+      }
+      const options = {
+        payload: 'test',
+        rootState: {
+          id: '1'
+        },
+        expectedMutations: [
+            {type: TEST_COMMIT, payload: '1'}
+        ]
+      }
+      utils.testAction(action, options, done)
+    })
 
     it('should test an action with multiple commits', done => {
       const TEST_COMMIT_1 = '__TEST_COMMIT_1__'

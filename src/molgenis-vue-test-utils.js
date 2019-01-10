@@ -48,6 +48,7 @@ import { expect } from 'chai'
  * @param options an options object containing parameters that can be used in testing this action
  * @param options.payload the payload included in the action dispatch
  * @param options.state the state used in this specific action
+ * @param options.rootState rootState can be used by modules from the store, this option can be used if module actions uses rootState
  * @param options.expectedMutations an array of objects describing the mutations that are expected to be committed by this action
  * @param options.expectedActions an array of objects describing the actions that are expected to be dispatched by this action
  * @param options.getters an object of possible mocks for getter calls
@@ -57,6 +58,7 @@ import { expect } from 'chai'
 const testAction = (action, options, done) => {
   const payload = options.payload ? options.payload : null
   const state = options.state ? options.state : {}
+  const rootState = options.rootState ? options.rootState : {}
   const expectedMutations = options.expectedMutations ? options.expectedMutations : []
   const expectedActions = options.expectedActions ? options.expectedActions : []
   const getters = options.getters ? options.getters : {}
@@ -100,7 +102,7 @@ const testAction = (action, options, done) => {
     }
   }
 
-  action({commit, dispatch, getters, state}, payload)
+  action({commit, dispatch, getters, state, rootState}, payload)
 
   if (expectedMutations.length === 0 && expectedActions.length === 0) {
     expect(mutationCount).to.equal(0)
